@@ -7,6 +7,17 @@ from flask import jsonify
 
 app = Flask(__name__)
 
+@app.route('/<path:path>')
+def static_file(path):
+    try:    
+        return app.send_static_file(path)
+    except: 
+        return "Error"
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
+
 @app.route("/api/add", methods=['GET'])
 def add():
     a = request.args.get('a', 0, type=int)
