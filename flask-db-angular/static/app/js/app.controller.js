@@ -23,7 +23,7 @@
         vm.createUser = function(){
             var data = {'username':vm.username, 'password':vm.password}
             $http.post('/api/users', data).then(function(resp){
-                vm.users = resp.data.result;
+                //vm.users = resp.data.result;
                 vm.getUsers();
             }, function(err){
                 vm.message = err;
