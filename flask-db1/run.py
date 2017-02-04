@@ -59,6 +59,7 @@ def api_users_add():
     )
     cur.execute("SELECT LAST_INSERT_ID();")
     id = cur.fetchone()
+    con.commit()
     con.close()
     return jsonify(result={'id':id[0], 'username':username, 'password': password})
 

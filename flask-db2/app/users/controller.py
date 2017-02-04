@@ -33,6 +33,7 @@ class UsersList(Resource):
         )
         cur.execute("SELECT LAST_INSERT_ID();")
         id = cur.fetchone()
+        con.commit()
         con.close()
         usr['idUsers'] = id[0]
         return usr, 202   
