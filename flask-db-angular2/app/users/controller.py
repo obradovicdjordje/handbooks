@@ -42,5 +42,37 @@ class UsersList(Resource):
         con.commit()
         con.close()
         usr['idUsers'] = id[0]
-        return usr, 202   
+        return usr, 202
 
+class Users(Resource):
+    def __init__(self, **kwargs):
+        self.db = kwargs['db']
+        self.table_name = 'Users'
+
+    # get by id
+    def get(self, id):
+        return 'error', 404
+    # update by id
+    def put(self, id):
+        return '', 201
+    # delete by id
+    def delete(self, id):
+        return '', 204
+
+class UsersLogin(Resource):
+    def __init__(self, **kwargs):
+        self.db = kwargs['db']
+        self.table_name = 'Users'
+
+    # get user by username, passwd
+    def get(self):
+        args = request.args
+        user = {
+                'username': args['username'],
+                'password': args['password']
+        }
+        if user != None:
+            return "Login "+user['username']+" "+user['passwd'];
+        else:
+            abort(404, message="User doesn't exists'")
+            return 404

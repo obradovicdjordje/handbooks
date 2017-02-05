@@ -13,8 +13,14 @@
         vm.users = [];
 
         vm.getUsers = function(){
-            $http.get('/api/users').then(function(resp){
-                vm.users = resp.data.result;
+            var req = {
+             method: 'GET',
+             url: '/api/users',
+             headers: {'auth-token': '123'}
+             //data: {'username':vm.username, 'password':vm.password}
+            }
+            $http(req).then(function(resp){
+                vm.users = resp.data;
             }, function(err){
                 vm.message = err;
             });
