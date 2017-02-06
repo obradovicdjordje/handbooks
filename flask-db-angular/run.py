@@ -4,6 +4,8 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+import random
+import string
 import json
 import mysql.connector
 
@@ -20,7 +22,6 @@ def static_file(path):
 def root():
     return app.send_static_file('index.html')
 
-
 dbconfig = {
     "host": 'rpi3-djordje.local',
     "database": "Agrotrail",
@@ -30,6 +31,34 @@ dbconfig = {
 
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_size = 3, **dbconfig)
 
+def token_generator():
+    N = 32
+    alphabet = string.ascii_lowercase
+    alphabet += string.ascii_uppercase 
+    alphabet += string.digits
+    return ''.join(random.choice(alphabet) for _ in range(N))
+
+# login
+@app.route("/api/login", methods=['GET'])
+def api_login():
+    username = request.args.get('username', None)
+    password = request.args.get('password', None)
+    if(username==None or password==None):
+        return 'error', 404
+    con = pool.get_connection()
+    cur = con.cursor()
+    cur.execute("""SELECT username, password 
+                   FROM Users 
+                   WHERE username='{0}' AND password='{1}'
+                """.format(username, password))
+    row = cur.fetchone()
+    cur.close()
+    con.close()
+    if row == None:
+        return 'error', 404
+    else:
+        token = token_generator()
+        return token, 200
 
 # get list of all users
 @app.route("/api/users", methods=['GET'])
@@ -47,7 +76,7 @@ def api_users():
     con.close()
     return jsonify(result=rez)
 
-# create users
+# create user
 @app.route("/api/users", methods=['POST'])
 def api_users_add():
     #username = request.form.get('inUsername')
@@ -67,5 +96,5 @@ def api_users_add():
     return jsonify(result={'id':id[0]})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=88, debug=True)
 
