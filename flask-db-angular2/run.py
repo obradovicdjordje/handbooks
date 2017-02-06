@@ -1,8 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+# only for development
+import os
+import threading, webbrowser
+
 from flask import Flask
 from flask_restful import Api
-
 from flask import request
 from flask import Response
 from flask import jsonify
@@ -10,8 +14,6 @@ import mysql.connector
 import json
 import xlwt
 import StringIO
-import os
-import threading, webbrowser
 
 from app.users.controller import UsersList
 from app.users.controller import Users
