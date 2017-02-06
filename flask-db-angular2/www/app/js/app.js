@@ -31,12 +31,14 @@ routerApp.controller('LoginController', function($scope, $http, $rootScope, $sta
     vm.message = '';
 
     vm.login = function(){
-        if(vm.username=='admin' && vm.password=='123'){
-            $rootScope.loggedUser = vm.username;
+        $http.get('/api/login?username='+vm.username+'&password='+vm.password).then(
+          function(resp){
+            $rootScope.token = resp.data;
+            //$rootScope.loggedUser = vm.username;
             $state.go('home');
-        }else{
-            vm.message = "greska";
-        }
+        }, function(err){
+            vm.message = err;
+        });
     }
 
 });

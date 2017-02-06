@@ -1,5 +1,4 @@
 
-
 class User():
     def __init__(self, db):
         self.table_name = 'Users'
@@ -18,4 +17,18 @@ class User():
             retVal.append(ob)
         con.close()
         return retVal
+
+    def find_by_username_password(self, username, password):
+        con = self.db.get_connection()
+        cur = con.cursor()
+        cur.execute("""SELECT username, password 
+                       FROM Users 
+                       WHERE username='{0}' AND password='{1}'
+                    """.format(username, password))
+        row = cur.fetchone()
+        cur.close()
+        con.close()
+        return row
+
+
 

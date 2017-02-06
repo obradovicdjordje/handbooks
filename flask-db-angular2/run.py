@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 from flask import Flask
 from flask_restful import Api
 
@@ -11,10 +10,13 @@ import mysql.connector
 import json
 import xlwt
 import StringIO
+import os
+import threading, webbrowser
 
 from app.users.controller import UsersList
 from app.users.controller import Users
 from app.users.controller import UsersLogin
+from app.auth.util import USERS
 
 app = Flask(__name__, static_folder='www')
 api = Api(app)
@@ -30,6 +32,13 @@ def static_file(path):
 def root():
     return app.send_static_file('index.html')
 
+@app.before_request
+def before_request():
+    request.__setattr__('user', None)
+    token = request.headers.get('auth-token')
+    if(token != None and token in USERS):
+        user = USERS[token]
+        request.__setattr__('user', user)
 
 dbconfig = {
     "host": 'rpi3-djordje.local',
@@ -42,23 +51,10 @@ pool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "mypool", pool_si
 
 api.add_resource(UsersList, '/api/users', resource_class_kwargs={'db':pool})
 api.add_resource(Users, '/api/users/<id>', resource_class_kwargs={'db':pool})
-api.add_resource(UsersLogin, '/api/users/login/', resource_class_kwargs={'db':pool})
-
-@app.route("/getExcel")
-def getPlotExcel():
-    f = StringIO.StringIO() # create a file-like object 
-    workbook = xlwt.Workbook()
-    sheet = workbook.add_sheet('test')
-
-    #  upisivanje u vrstu 3
-    sheet.write(3, 1, 'pera1')
-    workbook.save(f)
-    
-    return Response(
-        f.getvalue(),
-        mimetype="application/xls",
-        headers={"Content-disposition": "attachment; filename=sample.xls"})
+api.add_resource(UsersLogin, '/api/login/', resource_class_kwargs={'db':pool})
 
 
 if __name__ == "__main__":
+    url = "http://localhost:8080"
+    threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
     app.run(host='0.0.0.0', port=8080, debug=True)

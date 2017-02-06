@@ -14,10 +14,9 @@
 
         vm.getUsers = function(){
             var req = {
-             method: 'GET',
-             url: '/api/users',
-             headers: {'auth-token': '123'}
-             //data: {'username':vm.username, 'password':vm.password}
+                method: 'GET',
+                url: '/api/users',
+                headers: {'auth-token': $rootScope.token}
             }
             $http(req).then(function(resp){
                 vm.users = resp.data;
@@ -28,10 +27,10 @@
 
         vm.createUser = function(){
             var req = {
-             method: 'POST',
-             url: '/api/users',
-             headers: {'auth-token': 'werwerwer'},
-             data: {'username':vm.username, 'password':vm.password}
+                method: 'POST',
+                url: '/api/users',
+                headers: {'auth-token': $rootScope.token},
+                data: {'username':vm.username, 'password':vm.password}
             }
             $http(req).then(function(resp){
                 vm.getUsers();
