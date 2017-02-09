@@ -44,6 +44,11 @@ class UsersList(Resource):
     # create new
     @login_required
     def post(self):
+        """api
+            endpoint: /api/users
+            method: POST
+            params: trtr
+        """
         data = request.data
         
         usr = json.loads(data)
