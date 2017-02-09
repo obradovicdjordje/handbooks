@@ -10,8 +10,6 @@ from flask_restful import Api
 from flask import request
 from flask import Response
 from flask import jsonify
-from flask_restful_swagger import swagger
-
 
 import mysql.connector
 import json
@@ -24,7 +22,7 @@ from app.users.controller import UsersLogin
 from app.auth.util import USERS
 
 app = Flask(__name__, static_folder='www')
-api = swagger.docs(Api(app), apiVersion='0.1')
+api = Api(app)
 
 @app.after_request
 def after_request(response):

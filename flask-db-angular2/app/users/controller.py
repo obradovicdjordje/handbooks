@@ -3,7 +3,6 @@ import sys
 
 from flask_restful import reqparse, abort, Resource
 from flask import request
-from flask_restful_swagger import swagger
 
 import json
 
@@ -22,22 +21,15 @@ class UsersList(Resource):
         self.db = kwargs['db']
         self.table_name = 'Users'
 
-    # get all
     @login_required
-    @swagger.operation(
-        notes='get all users',
-        nickname='get',
-        parameters=[
-            {
-              "name": "auth-token",
-              "required": True,
-              "allowMultiple": False,
-              "dataType": "string",
-              "paramType": "header"
-            }],
-        responseMessages=[]
-        )
     def get(self):
+        """api
+            endpoint:/api/users
+            method: GET
+            args:
+            desc: get all users
+            return: json list of all users
+        """
         log('tu sam')
         return User(self.db).find_all()
 
@@ -45,9 +37,11 @@ class UsersList(Resource):
     @login_required
     def post(self):
         """api
-            endpoint: /api/users
+            endpoint:/api/users
             method: POST
-            params: trtr
+            args:
+            desc: create new user
+            return: new user with id
         """
         data = request.data
         
@@ -89,36 +83,10 @@ class UsersLogin(Resource):
         self.table_name = 'Users'
 
     # get user by username, passwd
-    @swagger.operation(
-        notes='Login rest service',
-        nickname='login',
-        parameters=[{
-              "name": "username",
-              "required": True,
-              "allowMultiple": False,
-              "dataType": str.__name__,
-              "paramType": "query"
-            },
-            {
-              "name": "password",
-              "required": True,
-              "allowMultiple": False,
-              "dataType": str.__name__,
-              "paramType": "query"
-            }
-        ],
-        responseMessages=[
-            {
-              "code": 201,
-              "message": "Createdtion header"
-            },
-            {
-              "code": 405,
-              "message": "Invalid input"
-            }
-          ]
-        )
     def get(self):
+        """api
+            gettt 
+        """
         args = request.args
         if('username' not in args or 'password' not in args):
             abort(404, message="User doesn't exists'")
