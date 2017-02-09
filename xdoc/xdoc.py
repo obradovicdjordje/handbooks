@@ -43,7 +43,7 @@ class XDoc:
         if hasattr(object, '__doc__'):
             s = object.__doc__
             if isinstance(s, str):
-                if(s.startswith("REST")):
+                if(s.startswith("api")):
                     print s
 
     def seen(self, object):

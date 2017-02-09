@@ -5,19 +5,19 @@ class Box():
         demo class
     """
     def testB(a, b):
-        """REST
+        """api
             endpoint:/api/test
             method:GET
-            params:
-                username
-                password
+            args:[
+                username,
+                password]
             returns: 
                 token
         """
         return a+b
 
     def testA(a, b):
-        """REST
+        """api
             endpoint:/api/users
             method:GET
             returns: list of all users
