@@ -10,6 +10,9 @@ from flask_restful import Api
 from flask import request
 from flask import Response
 from flask import jsonify
+from flask_restful_swagger import swagger
+
+
 import mysql.connector
 import json
 import xlwt
@@ -21,7 +24,15 @@ from app.users.controller import UsersLogin
 from app.auth.util import USERS
 
 app = Flask(__name__, static_folder='www')
-api = Api(app)
+api = swagger.docs(Api(app), apiVersion='0.1')
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
 
 @app.route('/<path:path>')
 def static_file(path):

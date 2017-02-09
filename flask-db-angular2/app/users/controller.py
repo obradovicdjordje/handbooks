@@ -3,6 +3,8 @@ import sys
 
 from flask_restful import reqparse, abort, Resource
 from flask import request
+from flask_restful_swagger import swagger
+
 import json
 
 from model import User
@@ -22,7 +24,21 @@ class UsersList(Resource):
 
     # get all
     @login_required
+    @swagger.operation(
+        notes='get all users',
+        nickname='get',
+        parameters=[
+            {
+              "name": "auth-token",
+              "required": True,
+              "allowMultiple": False,
+              "dataType": "string",
+              "paramType": "header"
+            }],
+        responseMessages=[]
+        )
     def get(self):
+        log('tu sam')
         return User(self.db).find_all()
 
     # create new
@@ -68,6 +84,35 @@ class UsersLogin(Resource):
         self.table_name = 'Users'
 
     # get user by username, passwd
+    @swagger.operation(
+        notes='Login rest service',
+        nickname='login',
+        parameters=[{
+              "name": "username",
+              "required": True,
+              "allowMultiple": False,
+              "dataType": str.__name__,
+              "paramType": "query"
+            },
+            {
+              "name": "password",
+              "required": True,
+              "allowMultiple": False,
+              "dataType": str.__name__,
+              "paramType": "query"
+            }
+        ],
+        responseMessages=[
+            {
+              "code": 201,
+              "message": "Createdtion header"
+            },
+            {
+              "code": 405,
+              "message": "Invalid input"
+            }
+          ]
+        )
     def get(self):
         args = request.args
         if('username' not in args or 'password' not in args):
