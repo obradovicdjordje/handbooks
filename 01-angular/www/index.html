@@ -1,0 +1,29 @@
+<html lang="en-US"  ng-app="myapp">
+<head>
+<title>Vezba-angular 01</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<script>
+  var app = angular.module('myapp', []);
+  app.controller('Example1Ctrl', function() {
+    var vm = this;
+
+    vm.ime = '';
+
+    vm.snimi = function(){
+      vm.ime += ' - snimljeno';
+    }
+  });
+</script>
+</head>
+<body>
+  <div ng-controller="Example1Ctrl as vm">
+    <p>Ime : <input type="text" ng-model="vm.ime"></p>
+    <p>Zdravo: {{vm.ime}}</p>
+    <input type=button ng-click="vm.snimi()" value="Snimi">
+  </div>
+</body>
