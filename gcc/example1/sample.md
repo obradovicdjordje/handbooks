@@ -12,7 +12,6 @@ fontsize: 17pt
 
 # Uvod
 
-Ovde ide neko sranje
 
 \note{}
 
@@ -20,7 +19,6 @@ Ovde ide neko sranje
 
 ## Sintaksa
 
-Ovde ide neko sranje
 Regular text size
 
 \tiny Jonathan Sarna, *American Judaism* (New Haven: Yale University
@@ -96,7 +94,36 @@ def my_awesome_variable:
 ## Code example
 
 ``` {.python}
-def my_awesome_variable:
-  a = "My awesome variable"
+def get_tasks_excell(idFarms):
+    tasks = Tasks().find_by_idFarm(idFarms)
+    boxes = {}
+    for task in tasks:
+        boxId = task['boxId']
+        task['status'] = ''
+        if boxId in boxes:
+            if task['operation'] == 'Berba':
+                if task['state'] == '0':
+                    task['status'] = '-'
+                else:
+                    task['status'] = 'napunjena paleta'
+                boxes[boxId]['started'] = boxes[boxId]['time']
+                boxes[boxId]['finished'] = task['time']
+                delta = task['time'] - boxes[boxId]['time']
+                if task['time'] < boxes[boxId]['time']:
+                    delta = boxes[boxId]['time'] - task['time']
+                    boxes[boxId]['started'] = task['time']
+                    boxes[boxId]['finished'] = boxes[boxId]['time']
+                boxes[boxId]['delta'] = delta
+        else:
+            task['finished'] = task['time']
+            task['delta'] = ''
+            boxes[boxId] = task.copy()
+```
+
+``` {.cpp}
+int main(string args[]){
+  int i=0;
+  i++;
+}
 
 ```
