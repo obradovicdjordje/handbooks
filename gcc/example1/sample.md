@@ -104,22 +104,9 @@ def get_tasks_excell(idFarms):
             if task['operation'] == 'Berba':
                 if task['state'] == '0':
                     task['status'] = '-'
-                else:
-                    task['status'] = 'napunjena paleta'
-                boxes[boxId]['started'] = boxes[boxId]['time']
-                boxes[boxId]['finished'] = task['time']
-                delta = task['time'] - boxes[boxId]['time']
-                if task['time'] < boxes[boxId]['time']:
-                    delta = boxes[boxId]['time'] - task['time']
-                    boxes[boxId]['started'] = task['time']
-                    boxes[boxId]['finished'] = boxes[boxId]['time']
-                boxes[boxId]['delta'] = delta
-        else:
-            task['finished'] = task['time']
-            task['delta'] = ''
-            boxes[boxId] = task.copy()
 ```
 
+## Code example2
 ``` {.cpp}
 int main(string args[]){
   int i=0;
