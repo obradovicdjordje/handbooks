@@ -1,1 +1,10 @@
 g++ program1.cpp -o hello
+
+
+slides:
+
+sudo apt-get install pandoc
+sudo apt-get install texlive-latex-base
+sudo apt-get install latex-beamer
+sudo apt-get install pdfjam
+sudo apt-get install texlive-fonts-recommended
